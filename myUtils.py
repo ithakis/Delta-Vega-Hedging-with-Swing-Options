@@ -1066,6 +1066,7 @@ def delta_vswap_hedging_simulation(
     float,
     Tuple[float, float],  # CVaR95 & CI
     np.ndarray,  # cumulative Δ+Γ costs per path
+    np.ndarray,  # variance swap final PnL
 ]:
     """
     Monte Carlo simulation of a Delta-Hedging strategy enhanced with a Variance Swap
@@ -1145,6 +1146,8 @@ def delta_vswap_hedging_simulation(
         Confidence interval for CVaR95.
     cum_total : ndarray
         Cumulative transaction costs for each path.
+    Vswap_value : ndarray
+        Array of final P&L values for the Variance Swap for each Monte Carlo path.
 
     Notes
     -----
@@ -1317,7 +1320,7 @@ def delta_vswap_hedging_simulation(
         )
         * VEGA_HEDGE_RATIO
     )
-    # vswap_hedge_ratio_bs_proxy(S0=S0, K=K, r=r, T=ttm/tdpy, v0=v0, kappa=kappa) * VEGA_HEDGE_RATIO
+    # print(f'{vswap_notional=}')
 
     # Variance swap price function ----------------------------------------
     get_vswap_price = partial(
@@ -1663,4 +1666,5 @@ def delta_vswap_hedging_simulation(
         CVaR95,
         CVaR_ci,
         cum_total,
+        Vswap_value,
     )
