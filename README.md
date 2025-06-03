@@ -70,7 +70,7 @@ This module provides advanced, production-grade quantitative finance tools, incl
     ```
 
 2. **Install dependencies:**
-    - Python 3.9+ recommended.
+    - Python 3.12+ recommended.
     - Required packages: `numpy`, `scipy`, `matplotlib`, `seaborn`, `QuantLib`, `py_vollib_vectorized`, `bootstrapped`, `numba`, `joblib`, `scienceplots`, `tqdm`, `jupyter`.
     - Install via pip:
         ```bash
@@ -83,6 +83,56 @@ This module provides advanced, production-grade quantitative finance tools, incl
     ```
     - All scenarios and figures are reproducible. 
     - The notebook imports `myUtils.py` for all computations.
+
+---
+
+## Python Environment Setup (Python 3.12 & QuantLib Notice)
+
+This project is tested with **Python 3.12** and makes use of several advanced scientific and quantitative finance libraries. Please follow these steps to ensure a working environment:
+
+1. **Create a Python 3.12 Virtual Environment**
+    ```bash
+    python3.12 -m venv dvh-env
+    source dvh-env/bin/activate  # On Windows: dvh-env\Scripts\activate
+    ```
+
+2. **Install Core Dependencies**
+    ```bash
+    pip install numpy scipy matplotlib seaborn py_vollib_vectorized bootstrapped numba joblib scienceplots tqdm jupyter
+    ```
+
+3. **QuantLib Installation – Special Note**
+
+    **This repository uses a custom version of QuantLib with intraday calculation support.**
+
+    - If you have access to the custom QuantLib wheel or source:  
+      Install it as follows (replace `<path_to_custom_quantlib>` with your file):
+      ```bash
+      pip install <path_to_custom_quantlib>
+      ```
+    - If you do **not** have the custom QuantLib version, install the standard one:
+      ```bash
+      pip install QuantLib-Python
+      ```
+      **However:**  
+      Many simulations and analytics in this repo may expect intraday support for QuantLib. If you encounter errors or missing features:
+      - **Modify `myUtils.py`** and your simulation settings to use only **daily hedging** (i.e., set hedging intervals and maturities to integer numbers of days).
+      - All "intraday" features must be ignored or replaced with daily-only logic for full compatibility.
+
+4. **Test Your Installation**
+    ```python
+    import numpy, scipy, matplotlib, seaborn, QuantLib, py_vollib_vectorized, bootstrapped, numba, joblib, tqdm
+    ```
+
+5. **Run the Notebook**
+    ```bash
+    jupyter notebook "Delta-Vega Notebook.ipynb"
+    ```
+
+**Troubleshooting QuantLib:**  
+If you see errors related to intraday features or date/time handling in QuantLib, you likely do not have the custom version.  
+- **Solution:** Edit `myUtils.py` and the notebook to use only *daily* hedging/frequencies.  
+- All core analyses (delta/vega hedging, variance swaps, etc.) can be performed in daily steps with standard QuantLib.
 
 ---
 
